@@ -64,6 +64,21 @@
    
    ```bash
    def calculateMAPForSystem(groundTruthDataFrame, docDataFrame, queryDataFrame, embeddingModel, tfidfWeight, bm25Weight, embeddingWeight):
+        """
+          Calculating MAP for a specific system
+      
+          Parameters:
+          - groundTruthDataFrame: DataFrame, DataFrame constructed from ground truth
+          - docDataFrame: DataFrame, DataFrame constructed from documents 
+          - queryDataFrame: DataFrame, DataFrame constructed from queries
+          - embeddingModel: word2vec model that is wanted to be used
+          - tfidfWeight: float, weight for tfidf score
+          - bm25Weight: float, weight for bm25 score
+          - embeddingWeight: float, weight for embedding score
+      
+          Returns:
+          - float, MAP score for a system
+        """
      # applying MAP at 10
      avgPrecisionForQueries = []
      # Obtaining queries and count of relevant documents
@@ -111,43 +126,43 @@
       # Constant embedding model list
    embeddingModels = [model.wv, preTrainedGoogleNewsModel]
    
-   systemsDict = {}
-   sysCount = 1
-   for index in range(len(systemsWeightList)):
-     system = {'embeddingModel': 0, 'weights': systemsWeightList[index]}
-     systemsDict[f'{sysCount}'] = system
-     sysCount+=1
-
-     # if embeddingWeight is larger than 0, there must 2 systems with both our trained model and pretrained model
-     if systemsWeightList[index][2] > 0:
-       systemWithAnotherModel = {'embeddingModel': 1, 'weights': systemsWeightList[index]}
-       systemsDict[f'{sysCount}'] = systemWithAnotherModel
-       sysCount+=1
+      systemsDict = {}
+      sysCount = 1
+      for index in range(len(systemsWeightList)):
+        system = {'embeddingModel': 0, 'weights': systemsWeightList[index]}
+        systemsDict[f'{sysCount}'] = system
+        sysCount+=1
    
-   
-   # print(systemsDict)
-   # print(len(systemsDict))
-   for systemId in range(1, len(systemsDict)+1):
-     system = systemsDict[f'{systemId}']
-     weights = system['weights']
-     tfidfWeight, bm25Weight, embeddingWeight = system['weights']
-     embeddingModelNo = system['embeddingModel']
-     MAP = calculateMAPForSystem(ground_truth_df, documents_df, queries_df, embeddingModels[embeddingModelNo], tfidfWeight, bm25Weight, embeddingWeight)
-     system['MAP'] = MAP
-     print(f'System {systemId}: \n MAP: {MAP} Weights: {weights} Embedding Model: {embeddingModels[embeddingModelNo]} \n')
-   
-   
-   # Printing System Performances into txt file
-   with open(systemPerformanceFilePath, 'w') as fileHandle:
-     for systemId, system in systemsDict.items():
-       weights = system['weights']
-       MAP = system['MAP']
-       embeddingModelId = system['embeddingModel']
-       if embeddingModelId == 1:
-         embeddingModel = 'Trained Model with CISI Dataset'
-       else:
-         embeddingModel = 'word2vec-google-news-300'
-       line = f'System {systemId}: \n MAP: {MAP} Weights: {weights} Embedding Model: {embeddingModel} \n'
-       fileHandle.write(line)
+        # if embeddingWeight is larger than 0, there must 2 systems with both our trained model and pretrained model
+        if systemsWeightList[index][2] > 0:
+          systemWithAnotherModel = {'embeddingModel': 1, 'weights': systemsWeightList[index]}
+          systemsDict[f'{sysCount}'] = systemWithAnotherModel
+          sysCount+=1
+      
+      
+      # print(systemsDict)
+      # print(len(systemsDict))
+      for systemId in range(1, len(systemsDict)+1):
+        system = systemsDict[f'{systemId}']
+        weights = system['weights']
+        tfidfWeight, bm25Weight, embeddingWeight = system['weights']
+        embeddingModelNo = system['embeddingModel']
+        MAP = calculateMAPForSystem(ground_truth_df, documents_df, queries_df, embeddingModels[embeddingModelNo], tfidfWeight, bm25Weight, embeddingWeight)
+        system['MAP'] = MAP
+        print(f'System {systemId}: \n MAP: {MAP} Weights: {weights} Embedding Model: {embeddingModels[embeddingModelNo]} \n')
+      
+      
+      # Printing System Performances into txt file
+      with open(systemPerformanceFilePath, 'w') as fileHandle:
+        for systemId, system in systemsDict.items():
+          weights = system['weights']
+          MAP = system['MAP']
+          embeddingModelId = system['embeddingModel']
+          if embeddingModelId == 1:
+            embeddingModel = 'Trained Model with CISI Dataset'
+          else:
+            embeddingModel = 'word2vec-google-news-300'
+          line = f'System {systemId}: \n MAP: {MAP} Weights: {weights} Embedding Model: {embeddingModel} \n'
+          fileHandle.write(line)
    
    
