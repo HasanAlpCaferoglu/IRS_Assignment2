@@ -1,4 +1,10 @@
-# Information Retrieval System
+# CS533 Information Retrieval System Assignment 2
+
+### Course No: CS533
+### Assignment No: 2
+### Student Name: Hasan Alp Caferoğlu
+### Student Id: 22203991
+### Email Address: alp.caferoglu@bilkent.edu.tr
 
 ## Overview
 
