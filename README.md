@@ -58,8 +58,45 @@
    # Downloading NLTK resources
    nltk.download('stopwords')
 
+5. **Calculating MAP Value For a Specific Configuration**
+   As it is written in the assignment, calculateMAPForSystem function allows user to calculate the MAP for a specific system configuration. If you would like to use it you should provide ground truth dataset as a pandas dataframe, documents dataset as a pandas dataframe, dataset for queries as a pandas dataframe , embeddingModel as a model itsef not its name, tfidfWeight, bm25Weight, embeddingWeight.
+   However if you want to directly calculate MAP values for a set of system configuration please go to the last step.
    
-5. **Last Modification For Calculating MAP for Various Systems**
+   ```bash
+   def calculateMAPForSystem(groundTruthDataFrame, docDataFrame, queryDataFrame, embeddingModel, tfidfWeight, bm25Weight, embeddingWeight):
+     # applying MAP at 10
+     avgPrecisionForQueries = []
+     # Obtaining queries and count of relevant documents
+     queryAndRelDocNum =  groundTruthDataFrame['query_id'].value_counts().reset_index().rename(columns={'query_id': 'rel_doc_count', 'index': 'query_id'})
+     queryAndRelDocNum=queryAndRelDocNum.sort_values(by='query_id').reset_index(drop=True)
+     for qIndex in range(len(queryAndRelDocNum)):
+       queryId = queryAndRelDocNum.loc[qIndex, 'query_id']
+       relevantDocIds = (groundTruthDataFrame[groundTruthDataFrame['query_id'] == queryId])['doc_id'].tolist()
+       top10RetrievedDocIds = retrievalSystem(docDataFrame, queryDataFrame, queryId, embeddingModel, tfidfWeight, bm25Weight, embeddingWeight)
+       # print('top 10 retrieved docs for query id ', queryId, ": ") 
+       # print(top10RetrievedDocIds) 
+   
+       relevanceCount = 0
+       precisionSum = 0
+       for i in range(len(top10RetrievedDocIds)):
+         retrievedDocId = top10RetrievedDocIds[i]
+         if retrievedDocId in relevantDocIds:
+           relevanceCount+=1
+           precisionSum += relevanceCount / (i+1)
+   
+       avgPrecision = precisionSum / len(relevantDocIds)
+       print('Average Precision for query id ', queryId, ": ", avgPrecision) 
+       avgPrecisionForQueries.append(avgPrecision)
+       print("-"*30) 
+   
+     print(" Sum of average precisions: ", sum(avgPrecisionForQueries)) 
+     print("Number of queries considered: ", len(avgPrecisionForQueries)) 
+     MAP = sum(avgPrecisionForQueries) / len(avgPrecisionForQueries)
+     print('MAP for the system: ', MAP)
+     print("-"*30)
+     return MAP
+   
+7. **Last Modification For Calculating MAP for Various Systems**
    At the last step, ensure that path that results printed in a file is updated according to your Drive directory structure.
    Enter set of weights for BM25 score, TF-IDF score and embedding score respectively.
    Note that system will automatically measure MAP for a configuration both using pre-trained word2vec model and model trained on CISI
@@ -71,9 +108,7 @@
       # Note that system will automatically measure MAP for a configuration both using pre-trained word2vec model and model trained on CISI
       systemsWeightList = [(0.4, 0.25, 0.35), (0.4, 0.25, 0.35)] # List of set of weights
 
-   
-```bash
-   # Constant embedding model list
+      # Constant embedding model list
    embeddingModels = [model.wv, preTrainedGoogleNewsModel]
    
    systemsDict = {}
