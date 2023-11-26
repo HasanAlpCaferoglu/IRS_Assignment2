@@ -28,5 +28,15 @@
    !pip install rank-bm25
    !pip install ipython-autotime
    %load_ext autotime
+   
+2. Upload CISI dataset into your Google Drive
+3. **Drive Connection:**
+   Ensure that you give a permission to Google Colab to access your Drive.
+   Update CISI dataset paths according to your director structure 
 
-2. Mount your Google Drive and give permission for access. Update CISI dataset paths according to your director structure 
+   ```bash
+   from google.colab import drive
+   drive.mount('/content/drive')
+   CISI_documents_path = '/content/drive/MyDrive/1.MS/CS533_IRS/assignments/assignment2/implementation/CISI/documents.csv'
+   CISI_queries_path = '/content/drive/MyDrive/1.MS/CS533_IRS/assignments/assignment2/implementation/CISI/queries.csv'
+   CISI_ground_truth_path = '/content/drive/MyDrive/1.MS/CS533_IRS/assignments/assignment2/implementation/CISI/ground_truth.csv'
