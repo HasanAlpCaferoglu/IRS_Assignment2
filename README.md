@@ -65,13 +65,14 @@
    Note that system will automatically measure MAP for a configuration both using pre-trained word2vec model and model trained on CISI
    
    ```bash
-   # Setting path for printed result.txt file
-   systemPerformanceFilePath = '/content/drive/MyDrive/1.MS/CS533_IRS/assignments/assignment2/implementation/resutls.txt'
-   # Setting weights to create different configurations
-   # Note that system will automatically measure MAP for a configuration both using pre-trained word2vec model and model trained on CISI
-   systemsWeightList = [(0.4, 0.25, 0.35), (0.4, 0.25, 0.35)] # List of set of weights
+      # Setting path for printed result.txt file
+      systemPerformanceFilePath = '/content/drive/MyDrive/1.MS/CS533_IRS/assignments/assignment2/implementation/resutls.txt'
+      # Setting weights to create different configurations
+      # Note that system will automatically measure MAP for a configuration both using pre-trained word2vec model and model trained on CISI
+      systemsWeightList = [(0.4, 0.25, 0.35), (0.4, 0.25, 0.35)] # List of set of weights
+
    
-   
+```bash
    # Constant embedding model list
    embeddingModels = [model.wv, preTrainedGoogleNewsModel]
    
