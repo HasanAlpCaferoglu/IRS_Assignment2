@@ -41,7 +41,7 @@
    CISI_queries_path = '/content/drive/MyDrive/.../CISI/queries.csv'
    CISI_ground_truth_path = '/content/drive/MyDrive/.../CISI/ground_truth.csv'
 
-4. **Imports Required Libraries**
+4. **Imports Required Libraries:**
    Make sure that you import all the necessary libraries
 
    ```bash
@@ -58,7 +58,7 @@
    # Downloading NLTK resources
    nltk.download('stopwords')
 
-5. **Calculating MAP Value For a Specific Configuration**
+5. **Calculating MAP Value For a Specific Configuration:**
    As it is written in the assignment, calculateMAPForSystem function allows user to calculate the MAP for a specific system configuration. If you would like to use it you should provide ground truth dataset as a pandas dataframe, documents dataset as a pandas dataframe, dataset for queries as a pandas dataframe , embeddingModel as a model itsef not its name, tfidfWeight, bm25Weight, embeddingWeight.
    However if you want to directly calculate MAP values for a set of system configuration please go to the last step.
    
@@ -111,7 +111,7 @@
      print("-"*30)
      return MAP
    
-7. **Last Modification For Calculating MAP for Various Systems**
+7. **Last Modification For Calculating MAP for Various Systems:**
    At the last step, ensure that path that results printed in a file is updated according to your Drive directory structure.
    Enter set of weights for BM25 score, TF-IDF score and embedding score respectively.
    Note that system will automatically measure MAP for a configuration both using pre-trained word2vec model and model trained on CISI
