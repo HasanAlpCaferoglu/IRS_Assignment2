@@ -17,6 +17,7 @@
 ## Important Notes
 
 * CISI dataset should be uploaded to Google Drive, if the code is directly used without changing anything.
+* Google Drive paths should be updated according to the user Google Drive directory structure
 
 ## Setup
 
@@ -28,4 +29,4 @@
    !pip install ipython-autotime
    %load_ext autotime
 
-2. 
+2. Mount your Google Drive and give permission for access. Update CISI dataset paths according to your director structure 
